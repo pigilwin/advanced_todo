@@ -15,7 +15,8 @@ export default {
           value: faker.name.firstName(0),
           id: i,
           complete: faker.random.arrayElement(['Y', 'N']),
-          hidden: faker.random.arrayElement(['Y', 'N'])
+          hidden: faker.random.arrayElement(['Y', 'N']),
+          priority: faker.random.arrayElement(['L', 'M', 'H'])
         });
       }
       this.$router.push('/');

@@ -9,10 +9,7 @@
             <div class="col-md-12">
                 <navbar
                         @revealAllHiddenItems="revealAllHiddenItems"
-                        @hideAllRevealedHiddenItems="hideAllRevealedHiddenItems"
-                        :show-dark-button="showDarkButton"
-                        :show-light-button="showLightButton"
-                        @clearData="clearData">
+                        @hideAllRevealedHiddenItems="hideAllRevealedHiddenItems">
 
                 </navbar>
             </div>
@@ -33,7 +30,7 @@
                     <h1 class="text-center">What needs to be done?</h1>
                 </div>
                 <ul class="list-group" :key="incomplete.id" v-for="incomplete in incompleteItems">
-                    <incomplete-item @completed="completeItem" :id="incomplete.id" :label="incomplete.value"></incomplete-item>
+                    <incomplete-item @completed="completeItem" :priority="incomplete.priority" :id="incomplete.id" :label="incomplete.value"></incomplete-item>
                 </ul>
             </div>
             <div class="col-md-6">
@@ -78,6 +75,7 @@
   import Navbar from "../components/Navbar";
   import SystemStats from "../components/SystemStats";
   import Database from '../providers/Database';
+  import { EventBus } from '../utils/EventBus';
 
   let store = new Database();
 
@@ -94,7 +92,8 @@
         errorMessage: '',
         completeItemsProvider: null,
         helpBubbleShown: false,
-        incompleteItemText: ''
+        incompleteItemText: '',
+        priority: 'L'
       };
     },
     created () {
@@ -109,6 +108,19 @@
           this.incompleteItems.push(row);
         }
       });
+      EventBus.$on('clearDatabase', () => {
+        this.hiddenCompleteItems = [];
+        this.completeItems = [];
+        this.incompleteItems = [];
+      });
+      EventBus.$on('priority', (priority) => {
+        if (priority !== undefined) {
+          this.priority = priority;
+        }
+      });
+      window.onerror = () => {
+        this._showErrorMessage('Javascript error detected');
+      };
     },
     methods: {
       _addItemToList(value) {
@@ -116,7 +128,8 @@
           value: value,
           id: new Date().getTime(),
           complete: 'N',
-          hidden: 'N'
+          hidden: 'N',
+          priority: this.priority
         };
         store.addItemToStore(data.id, data);
         this.incompleteItems.push(data);
@@ -211,12 +224,6 @@
       },
       hideHelpBubble () {
         this.helpBubbleShown = false;
-      },
-      clearData () {
-        this.incompleteItems = [];
-        this.completeItems = [];
-        this.hiddenCompleteItems = [];
-        store.clear();
       }
     },
     components: {IncompleteItem, CompleteItem, Navbar, SystemStats}

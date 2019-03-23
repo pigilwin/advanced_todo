@@ -1,8 +1,9 @@
 <template>
     <li class="list-group-item animated fadeInDownBig">
         <div class="custom-control custom-checkbox">
-            <input @click="completeItem(id)" type="checkbox" class="custom-control-input" id="customCheck1">
-            <label class="custom-control-label" for="customCheck1">{{label}}</label>
+            <input @click="completeItem(id)" type="checkbox" class="custom-control-input" :id="customCheck + id">
+            <label class="custom-control-label" :for="customCheck + id">{{label}}</label>
+            <span class="badge badge-secondary custom-badge">{{priorities[priority]}}</span>
         </div>
     </li>
 </template>
@@ -12,11 +13,17 @@
     name: "IncompleteItem",
     props: {
       label: String,
-      id: Number
+      id: Number,
+      priority: String
     },
     data() {
       return {
-
+        customCheck: "customCheck",
+        priorities: {
+          "L": "Low",
+          "M": "Medium",
+          "H": "High"
+        }
       };
     },
     methods: {
@@ -32,7 +39,7 @@
         margin-top: 2.5px;
         margin-bottom: 2.5px;
     }
-    li div.checkbox {
-
+    li .custom-badge {
+        float: right;
     }
 </style>

@@ -5,6 +5,11 @@
             <div class="my-2 my-lg-0 m-1">
                 <input class="form-control mr-sm-2" @keypress="emitKeyPressEvent" type="search" placeholder="Search" aria-label="Search">
             </div>
+            <div class="my-2 my-lg-0 m-1">
+                <select class="form-control" @change="setPriority" v-model="priority">
+                    <option :selected="priority.selected" :value="priority.id" v-for="priority in priorities" :key="priority.id">{{priority.name}}</option>
+                </select>
+            </div>
             <div class="my-2 my-lg-0 m-1" v-if="shouldWeShowTheLightButton">
                 <button @click="changeToLightView" class="btn btn-block btn-lg btn-info">Light Mode</button>
             </div>
@@ -25,29 +30,39 @@
 </template>
 
 <script>
+  import Database from '../providers/Database';
+  import { EventBus } from '../utils/EventBus';
+
   export default {
     name: "navbar",
-    props: {
-      showLightButton: {
-        type: Boolean,
-        default: false
-      },
-      showDarkButton: {
-        type: Boolean,
-        default: false
-      }
-    },
     data () {
       return {
         shouldWeShowTheLightButton: false,
-        shouldWeShowTheDarkButton: false,
+        shouldWeShowTheDarkButton: true,
         shouldWeShowTheRevealAllHiddenItemsButton: true,
         shouldWeShowTheHideAllHiddenItemsButton: false,
+        priority: '',
+        priorities: []
       };
     },
     created () {
-      this.shouldWeShowTheDarkButton = this.showDarkButton;
-      this.shouldWeShowTheLightButton = this.showLightButton;
+      const that = this;
+      const priorities = {
+        'L': 'Low',
+        'M': 'Medium',
+        'H': 'High'
+      };
+      Object.keys(priorities).forEach((key) => {
+        let selected = false;
+        if (key === 'L') {
+          selected = true;
+        }
+        that.priorities.push({
+          id: key,
+          name: priorities[key],
+          selected: selected
+        });
+      });
     },
     methods: {
       changeToLightView () {
@@ -77,8 +92,12 @@
         this.shouldWeShowTheRevealAllHiddenItemsButton = true;
         this.$emit('hideAllRevealedHiddenItems');
       },
+      setPriority () {
+        EventBus.$emit('priority', this.priority);
+      },
       clearData () {
-        this.$emit('clearData');
+        (new Database()).clear();
+        EventBus.$emit('clearDatabase');
       }
     }
   }
