@@ -3,11 +3,8 @@
         <a class="navbar-brand" href="#">Utilities Navbar</a>
         <div class="collapse navbar-collapse">
             <div class="my-2 my-lg-0 m-1">
-                <input class="form-control mr-sm-2" @keypress="emitKeyPressEvent" type="search" placeholder="Search" aria-label="Search">
-            </div>
-            <div class="my-2 my-lg-0 m-1">
                 <select class="form-control" @change="setPriority" v-model="priority">
-                    <option :selected="priority.selected" :value="priority.id" v-for="priority in priorities" :key="priority.id">{{priority.name}}</option>
+                    <option :value="priority.id" v-for="priority in priorities" :key="priority.id">{{priority.name}}</option>
                 </select>
             </div>
             <div class="my-2 my-lg-0 m-1" v-if="shouldWeShowTheLightButton">
@@ -41,7 +38,7 @@
         shouldWeShowTheDarkButton: true,
         shouldWeShowTheRevealAllHiddenItemsButton: true,
         shouldWeShowTheHideAllHiddenItemsButton: false,
-        priority: '',
+        priority: 'L',
         priorities: []
       };
     },
@@ -53,14 +50,9 @@
         'H': 'High'
       };
       Object.keys(priorities).forEach((key) => {
-        let selected = false;
-        if (key === 'L') {
-          selected = true;
-        }
         that.priorities.push({
           id: key,
-          name: priorities[key],
-          selected: selected
+          name: priorities[key]
         });
       });
     },
@@ -78,9 +70,6 @@
         const classObserver = document.body.classList;
         classObserver.remove('light-mode');
         classObserver.add('dark-mode');
-      },
-      emitKeyPressEvent (event) {
-        this.$emit('searchBarKeyPressed', event.target.value);
       },
       revealAllHiddenItems () {
         this.shouldWeShowTheHideAllHiddenItemsButton = true;
@@ -102,7 +91,3 @@
     }
   }
 </script>
-
-<style scoped>
-
-</style>
