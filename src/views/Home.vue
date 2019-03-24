@@ -21,7 +21,7 @@
         </div>
         <div class="row p-3">
             <div class="col-xs-12 col-md-12">
-                <input type="text" @focus="showHelpBubble()" v-model="incompleteItemText" @blur="hideHelpBubble()" @keydown="createIncompleteItem" class="form-control add-todo" placeholder="Add todo">
+                <input data-cy="new-item" type="text" @focus="showHelpBubble()" v-model="incompleteItemText" @blur="hideHelpBubble()" @keydown="createIncompleteItem" class="form-control add-todo" placeholder="Add todo">
             </div>
         </div>
         <div class="row p-3">

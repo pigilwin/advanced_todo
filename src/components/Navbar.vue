@@ -3,23 +3,23 @@
         <a class="navbar-brand" href="#">Utilities Navbar</a>
         <div class="collapse navbar-collapse">
             <div class="my-2 my-lg-0 m-1">
-                <select class="form-control" @change="setPriority" v-model="priority">
+                <select data-cy="priority" class="form-control" @change="setPriority" v-model="priority">
                     <option :value="priority.id" v-for="priority in priorities" :key="priority.id">{{priority.name}}</option>
                 </select>
             </div>
-            <div class="my-2 my-lg-0 m-1" v-if="shouldWeShowTheLightButton">
+            <div data-cy="light-button" class="my-2 my-lg-0 m-1" v-if="shouldWeShowTheLightButton">
                 <button @click="changeToLightView" class="btn btn-block btn-lg btn-info">Light Mode</button>
             </div>
-            <div class="my-2 my-lg-0 m-1" v-if="shouldWeShowTheDarkButton">
+            <div data-cy="dark-button" class="my-2 my-lg-0 m-1" v-if="shouldWeShowTheDarkButton">
                 <button @click="changeToDarkView" class="btn btn-block btn-lg btn-info">Dark Mode</button>
             </div>
-            <div class="my-2 my-lg-0 m-1" v-if="shouldWeShowTheRevealAllHiddenItemsButton">
+            <div data-cy="show-hidden-items" class="my-2 my-lg-0 m-1" v-if="shouldWeShowTheRevealAllHiddenItemsButton">
                 <button @click="revealAllHiddenItems" class="btn btn-block btn-lg btn-info">Show all hidden items</button>
             </div>
-            <div class="my-2 my-lg-0 m-1" v-if="shouldWeShowTheHideAllHiddenItemsButton">
+            <div data-cy="hide-hidden-items" class="my-2 my-lg-0 m-1" v-if="shouldWeShowTheHideAllHiddenItemsButton">
                 <button @click="hideAllRevealedHiddenItems" class="btn btn-block btn-lg btn-info">Hide all revealed hidden items</button>
             </div>
-            <div class="my-2 my-lg-0 m-1">
+            <div data-cy="wipe-data" class="my-2 my-lg-0 m-1">
                 <button @click="clearData" class="btn btn-block btn-lg btn-danger">Wipe data</button>
             </div>
         </div>
