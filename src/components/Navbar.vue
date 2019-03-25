@@ -13,12 +13,6 @@
             <div data-cy="dark-button" class="my-2 my-lg-0 m-1" v-if="shouldWeShowTheDarkButton">
                 <button @click="changeToDarkView" class="btn btn-block btn-lg btn-info">Dark Mode</button>
             </div>
-            <div data-cy="show-hidden-items" class="my-2 my-lg-0 m-1" v-if="shouldWeShowTheRevealAllHiddenItemsButton">
-                <button @click="revealAllHiddenItems" class="btn btn-block btn-lg btn-info">Show all hidden items</button>
-            </div>
-            <div data-cy="hide-hidden-items" class="my-2 my-lg-0 m-1" v-if="shouldWeShowTheHideAllHiddenItemsButton">
-                <button @click="hideAllRevealedHiddenItems" class="btn btn-block btn-lg btn-info">Hide all revealed hidden items</button>
-            </div>
             <div data-cy="wipe-data" class="my-2 my-lg-0 m-1">
                 <button @click="clearData" class="btn btn-block btn-lg btn-danger">Wipe data</button>
             </div>
@@ -36,8 +30,6 @@
       return {
         shouldWeShowTheLightButton: false,
         shouldWeShowTheDarkButton: true,
-        shouldWeShowTheRevealAllHiddenItemsButton: true,
-        shouldWeShowTheHideAllHiddenItemsButton: false,
         priority: 'L',
         priorities: []
       };
@@ -70,16 +62,6 @@
         const classObserver = document.body.classList;
         classObserver.remove('light-mode');
         classObserver.add('dark-mode');
-      },
-      revealAllHiddenItems () {
-        this.shouldWeShowTheHideAllHiddenItemsButton = true;
-        this.shouldWeShowTheRevealAllHiddenItemsButton = false;
-        this.$emit('revealAllHiddenItems');
-      },
-      hideAllRevealedHiddenItems () {
-        this.shouldWeShowTheHideAllHiddenItemsButton = false;
-        this.shouldWeShowTheRevealAllHiddenItemsButton = true;
-        this.$emit('hideAllRevealedHiddenItems');
       },
       setPriority () {
         EventBus.$emit('priority', this.priority);

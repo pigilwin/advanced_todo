@@ -5,6 +5,8 @@
 </template>
 
 <script>
+  import SystemInformation from '../providers/SystemInformation';
+
   export default {
     name: "SystemStats",
     data () {
@@ -17,12 +19,27 @@
     },
     methods: {
       buildSystemInformation () {
-        const keys = ['status', 'name'];
         let arr = [];
-        keys.forEach((key) => {
+        SystemInformation.getPageName().then((pageName) => {
           arr.push({
-            id: key,
-            value: window[key]
+            id: 'Name',
+            value: pageName
+          });
+        }).catch(() => {
+          arr.push({
+            id: 'Name',
+            value: 'Failed to find the page name'
+          });
+        });
+        SystemInformation.getPageStatus().then((status) => {
+          arr.push({
+            id: 'Status',
+            value: status
+          });
+        }).catch(() => {
+          arr.push({
+            id: 'Status',
+            value: 'Failed to find the page status'
           });
         });
         return arr;
