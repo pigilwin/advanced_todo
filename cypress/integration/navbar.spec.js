@@ -1,6 +1,13 @@
 describe("Does the navigation bar does as expected", () => {
 
-  it("Should toggle the background to be dark", () => {
+  it("Should load the page", () => {
+
+    cy.visit('/');
+
+  });
+
+
+  it ('Should allow the application to be switched to dark mode', () => {
 
     cy.visit('/');
 
