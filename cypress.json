@@ -2,5 +2,7 @@
   "baseUrl": "http://localhost:8080/",
   "watchForFileChanges": true,
   "theme": "dark",
-  "darkMediaQuery": true
+  "darkMediaQuery": true,
+  "trashAssetsBeforeRuns": true,
+  "video": true
 }
