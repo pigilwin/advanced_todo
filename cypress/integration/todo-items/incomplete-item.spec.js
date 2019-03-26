@@ -33,12 +33,11 @@ describe('All features of incomplete items', () => {
 
     cy.visit('/');
 
-    cy.get('[data-cy="new-item"]')
-      .type('Clean the house')
-      .should('have.value','Clean the house')
-      .trigger('keydown', { keyCode: 13, which: 13 });
+    cy.addIncompleteItem('Clean the house');
 
-    cy.get('[data-cy="incomplete-list-holder"]').children().should('have.length', 1);
+    cy.get('[data-cy="incomplete-list-holder"]')
+      .children()
+      .should('have.length', 1);
 
   });
 
@@ -47,10 +46,9 @@ describe('All features of incomplete items', () => {
     cy.visit('/');
 
     for (let i = 0; i < 2; i++) {
-      cy.get('[data-cy="new-item"]')
-      .type('Clean the house')
-      .should('have.value', 'Clean the house')
-      .trigger('keydown', {keyCode: 13, which: 13});
+
+      cy.addIncompleteItem('Clean the house');
+
     }
 
     cy.get('[data-cy="error-message-container"]');
@@ -61,24 +59,9 @@ describe('All features of incomplete items', () => {
 
     cy.visit('/');
 
-    cy.get('[data-cy="new-item"]')
-    .type('Clean the house')
-    .should('have.value','Clean the house')
-    .trigger('keydown', { keyCode: 13, which: 13 });
+    cy.addCompleteItem('Clean the house');
 
-    cy.get('[data-cy="incomplete-list-holder"]')
-      .children()
-      .first()
-      .find('[data-cy="complete-me-checkbox"]')
-      .click({
-        force: true
-      });
-
-    cy.get('[data-cy="new-item"]')
-    .type('Clean the house')
-    .should('have.value','Clean the house')
-    .trigger('keydown', { keyCode: 13, which: 13 });
-
+    cy.addIncompleteItem('Clean the house');
 
     cy.get('[data-cy="error-message-container"]');
 

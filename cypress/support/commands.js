@@ -1,25 +1,21 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This is will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+Cypress.Commands.add('addIncompleteItem', (itemValue) => {
+
+  cy.get('[data-cy="new-item"]')
+    .type(itemValue)
+    .should('have.value',itemValue)
+    .trigger('keydown', { keyCode: 13, which: 13 });
+
+});
+
+Cypress.Commands.add('addCompleteItem', (itemValue) => {
+
+  cy.addIncompleteItem(itemValue);
+
+  cy.get('[data-cy="incomplete-list-holder"]')
+    .children()
+    .last()
+    .find('[data-cy="complete-me-checkbox"]')
+    .click({
+      force: true
+    });
+});
