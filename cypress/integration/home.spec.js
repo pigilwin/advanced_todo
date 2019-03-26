@@ -37,3 +37,12 @@ describe('Generic homepage tests', () => {
   });
 
 });
+
+
+describe('Hooks', () => {
+
+  afterEach(() => {
+
+  });
+
+});
