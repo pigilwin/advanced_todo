@@ -1,8 +1,12 @@
 describe('Generic homepage tests', () => {
 
-  it ('Should load the results when the page is loaded with incomplete items', () => {
+  beforeEach(() => {
 
     cy.visit('/');
+
+  });
+
+  it ('Should load the results when the page is loaded with incomplete items', () => {
 
     cy.addIncompleteItem('Hello World');
 
@@ -20,8 +24,6 @@ describe('Generic homepage tests', () => {
 
   it ('Should load the results when the page is loaded with incomplete items', () => {
 
-    cy.visit('/');
-
     cy.addCompleteItem('Hello World');
 
     cy.get('[data-cy="complete-list-holder"]')
@@ -33,15 +35,6 @@ describe('Generic homepage tests', () => {
     cy.get('[data-cy="complete-list-holder"]')
       .children()
       .should('have.length', 1);
-
-  });
-
-});
-
-
-describe('Hooks', () => {
-
-  afterEach(() => {
 
   });
 

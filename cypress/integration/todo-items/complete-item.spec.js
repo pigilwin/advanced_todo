@@ -1,14 +1,18 @@
 describe('All features of complete items', () => {
 
-  it ('Should load the page', () => {
+  beforeEach(() => {
 
     cy.visit('/');
 
   });
 
-  it ('Should allow complete items to be created', () => {
+  it ('Should load the page', () => {
 
-    cy.visit('/');
+    cy.get('[data-cy="new-item"]');
+
+  });
+
+  it ('Should allow complete items to be created', () => {
 
     cy.addCompleteItem('Clean the house');
 
