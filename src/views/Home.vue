@@ -51,6 +51,7 @@
         <div class="row" v-if="!hideError">
             <div class="col-md-12 alert alert-danger">
                 {{errorMessage}}
+                <span @click="_hideErrorMessage()" class="float-right cursor-pointer" aria-hidden="true">&times;</span>
             </div>
         </div>
         <div class="row">
@@ -126,10 +127,10 @@
       _showErrorMessage (message) {
         this.errorMessage = message;
         this.hideError = false;
-        setTimeout(() => {
-          this.errorMessage = '';
-          this.hideError = true;
-        }, 2000);
+      },
+      _hideErrorMessage () {
+        this.errorMessage = '';
+        this.hideError = true;
       },
       createIncompleteItem(event) {
         this.hideError = true;
@@ -183,4 +184,7 @@
 </script>
 
 <style scoped>
+    .cursor-pointer{
+        cursor: pointer;
+    }
 </style>
