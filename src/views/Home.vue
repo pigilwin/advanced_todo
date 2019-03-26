@@ -108,6 +108,9 @@
           this.priority = priority;
         }
       });
+      EventBus.$on('settingsWindowOpen', () => {
+        this.$router.push('settings');
+      });
     },
     methods: {
       _addItemToList(value) {

@@ -7,14 +7,14 @@
                     <option :value="priority.id" v-for="priority in priorities" :key="priority.id">{{priority.name}}</option>
                 </select>
             </div>
-            <div data-cy="light-button" class="my-2 my-lg-0 m-1" v-if="shouldWeShowTheLightButton">
-                <button @click="changeToLightView" class="btn btn-block btn-lg btn-info">Light Mode</button>
+            <div class="my-2 my-lg-0 m-1" v-if="shouldWeShowTheLightButton">
+                <button data-cy="light-button" @click="changeToLightView" class="btn btn-block btn-lg btn-info">Light Mode</button>
             </div>
-            <div data-cy="dark-button" class="my-2 my-lg-0 m-1" v-if="shouldWeShowTheDarkButton">
-                <button @click="changeToDarkView" class="btn btn-block btn-lg btn-info">Dark Mode</button>
+            <div class="my-2 my-lg-0 m-1" v-if="shouldWeShowTheDarkButton">
+                <button data-cy="dark-button" @click="changeToDarkView" class="btn btn-block btn-lg btn-info">Dark Mode</button>
             </div>
-            <div data-cy="wipe-data" class="my-2 my-lg-0 m-1">
-                <button @click="clearData" class="btn btn-block btn-lg btn-danger">Wipe data</button>
+            <div class="my-2 my-lg-0 m-1">
+                <button data-cy="wipe-data" @click="clearData" class="btn btn-block btn-lg btn-danger">Wipe data</button>
             </div>
         </div>
     </nav>

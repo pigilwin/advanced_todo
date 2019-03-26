@@ -8,7 +8,7 @@ export default class SystemInformation {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve('Advanced Todo');
-      });
+      }, 1000);
     });
   }
 
@@ -20,7 +20,7 @@ export default class SystemInformation {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve('Active');
-      });
+      }, 1000);
     });
   }
 }
