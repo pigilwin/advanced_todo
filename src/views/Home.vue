@@ -12,7 +12,7 @@
         </div>
         <div class="row" v-if="helpBubbleShown">
             <div class="col-md-12 p-3">
-                <div class="alert alert-info">Use the "enter" key to add additional items upon text completion.</div>
+                <div data-cy="new-item-help-text" class="alert alert-info">Use the "enter" key to add additional items upon text completion.</div>
             </div>
         </div>
         <div class="row p-3">
@@ -25,7 +25,7 @@
                 <div class="p-3">
                     <h1 class="text-center">What needs to be done?</h1>
                 </div>
-                <ul class="list-group" :key="incomplete.id" v-for="incomplete in incompleteItems">
+                <ul data-cy="incomplete-list-holder" class="list-group" :key="incomplete.id" v-for="incomplete in incompleteItems">
                     <incomplete-item @completed="completeItem" :priority="incomplete.priority" :id="incomplete.id" :label="incomplete.value"></incomplete-item>
                 </ul>
             </div>
@@ -33,7 +33,7 @@
                 <div class="p-3">
                     <h1 class="text-center">Already Done!</h1>
                 </div>
-                <ul class="list-group" :key="complete.id" v-for="complete in completeItems">
+                <ul data-cy="complete-list-holder" class="list-group" :key="complete.id" v-for="complete in completeItems">
                     <complete-item :label="complete.value"></complete-item>
                 </ul>
             </div>
@@ -48,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div class="row" v-if="!hideError">
+        <div data-cy="error-message-container" class="row" v-if="!hideError">
             <div class="col-md-12 alert alert-danger">
                 {{errorMessage}}
                 <span @click="_hideErrorMessage()" class="float-right cursor-pointer" aria-hidden="true">&times;</span>
