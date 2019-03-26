@@ -66,7 +66,21 @@ describe('All features of incomplete items', () => {
     .should('have.value','Clean the house')
     .trigger('keydown', { keyCode: 13, which: 13 });
 
-    cy.get('[data-cy="incomplete-list-holder"]').children().first().find('')
+    cy.get('[data-cy="incomplete-list-holder"]')
+      .children()
+      .first()
+      .find('[data-cy="complete-me-checkbox"]')
+      .click({
+        force: true
+      });
+
+    cy.get('[data-cy="new-item"]')
+    .type('Clean the house')
+    .should('have.value','Clean the house')
+    .trigger('keydown', { keyCode: 13, which: 13 });
+
+
+    cy.get('[data-cy="error-message-container"]');
 
   });
 
