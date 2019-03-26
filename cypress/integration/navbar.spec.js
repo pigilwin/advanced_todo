@@ -22,6 +22,8 @@ describe("Does the navigation bar does as expected", () => {
     cy.get('body')
       .should('have.class', 'dark-mode');
 
+    cy.screenshot();
+
   });
 
   it ('Should allow the application to be switched to light mode from dark mode', () => {
@@ -32,6 +34,8 @@ describe("Does the navigation bar does as expected", () => {
 
     cy.get('body')
       .should('have.class', 'light-mode');
+
+    cy.screenshot();
 
   });
 
