@@ -7,11 +7,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <navbar
-                        @revealAllHiddenItems="revealAllHiddenItems"
-                        @hideAllRevealedHiddenItems="hideAllRevealedHiddenItems">
-
-                </navbar>
+                <navbar></navbar>
             </div>
         </div>
         <div class="row" v-if="helpBubbleShown">
@@ -21,7 +17,7 @@
         </div>
         <div class="row p-3">
             <div class="col-xs-12 col-md-12">
-                <input type="text" @focus="showHelpBubble()" v-model="incompleteItemText" @blur="hideHelpBubble()" @keydown="createIncompleteItem" class="form-control add-todo" placeholder="Add todo">
+                <input data-cy="new-item" type="text" @focus="showHelpBubble()" v-model="incompleteItemText" @blur="hideHelpBubble()" @keydown="createIncompleteItem" class="form-control add-todo" placeholder="Add todo">
             </div>
         </div>
         <div class="row p-3">
@@ -38,11 +34,7 @@
                     <h1 class="text-center">Already Done!</h1>
                 </div>
                 <ul class="list-group" :key="complete.id" v-for="complete in completeItems">
-                    <complete-item
-                            @hideItem="hideId"
-                            :id="complete.id"
-                            :label="complete.value">
-                    </complete-item>
+                    <complete-item :label="complete.value"></complete-item>
                 </ul>
             </div>
             <div class="col-md-6 p-2">
@@ -75,6 +67,7 @@
   import Navbar from "../components/Navbar";
   import SystemStats from "../components/SystemStats";
   import Database from '../providers/Database';
+  import StoreHelpers from '../utils/StoreHelpers';
   import { EventBus } from '../utils/EventBus';
 
   let store = new Database();
@@ -100,16 +93,13 @@
       let data = store.getData();
       Object.keys(data).forEach((key) => {
         let row = data[key];
-        if (row.complete === 'Y' && row.hidden === 'Y') {
-          this.hiddenCompleteItems.push(row);
-        } else if (row.complete === 'Y') {
+        if (row.complete === 'Y') {
           this.completeItems.push(row);
         } else {
           this.incompleteItems.push(row);
         }
       });
       EventBus.$on('clearDatabase', () => {
-        this.hiddenCompleteItems = [];
         this.completeItems = [];
         this.incompleteItems = [];
       });
@@ -118,9 +108,9 @@
           this.priority = priority;
         }
       });
-      window.onerror = () => {
-        this._showErrorMessage('Javascript error detected');
-      };
+      EventBus.$on('settingsWindowOpen', () => {
+        this.$router.push('settings');
+      });
     },
     methods: {
       _addItemToList(value) {
@@ -128,7 +118,6 @@
           value: value,
           id: new Date().getTime(),
           complete: 'N',
-          hidden: 'N',
           priority: this.priority
         };
         store.addItemToStore(data.id, data);
@@ -150,11 +139,11 @@
             this._showErrorMessage('Value is empty');
             return;
           }
-          if (this.incompleteItems.indexOf(value) !== -1) {
+          if (StoreHelpers.fetchAllKeyValues(this.incompleteItems, 'value').indexOf(value) !== -1) {
             this._showErrorMessage('Item already exists in incomplete items');
             return;
           }
-          if (this.incompleteItems.indexOf(value) !== -1) {
+          if (StoreHelpers.fetchAllKeyValues(this.completeItems, 'value').indexOf(value) !== -1) {
             this._showErrorMessage('Item already exists in completed items');
             return;
           }
@@ -181,43 +170,6 @@
           }
         });
         this.incompleteItems = incompleteItems;
-      },
-      hideId (id) {
-        const that = this;
-        let completeItems = [];
-        this.completeItems.forEach((item) => {
-          if (item.id !== id) {
-            completeItems.push(item);
-            store.addItemToStore(item.id, item);
-          } else {
-            item.hidden = 'Y';
-            that.hiddenCompleteItems.push(item);
-          }
-        });
-        this.completeItems = completeItems;
-      },
-      revealAllHiddenItems () {
-        const that = this;
-        if (this.hiddenCompleteItems.length === 0) {
-          this._showErrorMessage('No items to reveal');
-          return;
-        }
-        this.hiddenCompleteItems.forEach((item) => {
-          that.completeItems.push(item);
-        });
-        this.hiddenCompleteItems = [];
-      },
-      hideAllRevealedHiddenItems () {
-        const that = this;
-        let completedItems = [];
-        this.completeItems.forEach((item) => {
-          if (item.hidden === 'Y') {
-            that.hiddenCompleteItems.push(item);
-          } else {
-            completedItems.push(item);
-          }
-        });
-        this.completeItems = completedItems;
       },
       showHelpBubble () {
         this.helpBubbleShown = true;

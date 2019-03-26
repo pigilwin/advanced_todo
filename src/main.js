@@ -9,9 +9,6 @@ import "animate.css/animate.min.css";
 
 Vue.config.productionTip = false;
 
-window.status = 'active';
-window.name = 'Advanced Todo';
-
 new Vue({
   router,
   render: h => h(App)
