@@ -12,9 +12,18 @@
   export default {
     name: "IncompleteItem",
     props: {
-      label: String,
-      id: Number,
-      priority: String
+      label: {
+        type: String,
+        default: ''
+      },
+      id: {
+        default: 0,
+        type: Number
+      },
+      priority: {
+        type: String,
+        default: ''
+      }
     },
     data() {
       return {
