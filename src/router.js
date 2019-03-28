@@ -3,6 +3,7 @@ import Router from "vue-router";
 import Home from "./views/Home.vue";
 import Seed from './views/Seed.vue';
 import Wipe from './views/Wipe.vue';
+import StaticWebView from './views/StaticWebView.vue';
 
 Vue.use(Router);
 
@@ -24,6 +25,11 @@ export default new Router({
       path: '/wipe',
       name: 'wipe',
       component: Wipe
+    },
+    {
+      path: '/static',
+      name: 'static',
+      component: StaticWebView
     }
   ]
 });

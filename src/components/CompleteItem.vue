@@ -1,8 +1,5 @@
 <template>
     <li class="list-group-item d-flex justify-content-between align-items-center animated fadeInLeftBig">{{label}}
-        <span class="badge">
-            <i @click="hideItem(id)" class="fas fa-ban deleteTrigger"></i>
-        </span>
     </li>
 </template>
 
@@ -12,11 +9,6 @@
     props: {
       label: String,
       id: Number
-    },
-    methods: {
-      hideItem (id) {
-        this.$emit('hideItem', id);
-      }
     }
   }
 </script>
