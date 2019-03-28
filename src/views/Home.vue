@@ -20,40 +20,8 @@
                 <input data-cy="new-item" type="text" @focus="showHelpBubble()" v-model="incompleteItemText" @blur="hideHelpBubble()" @keydown="createIncompleteItem" class="form-control add-todo" placeholder="Add todo">
             </div>
         </div>
-        <div class="row p-3">
-            <div class="col-md-6">
-                <div class="p-3">
-                    <h1 class="text-center">What needs to be done?</h1>
-                </div>
-                <ul data-cy="incomplete-list-holder" class="list-group" :key="incomplete.id" v-for="incomplete in incompleteItems">
-                    <incomplete-item @completed="completeItem" :priority="incomplete.priority" :id="incomplete.id" :label="incomplete.value"></incomplete-item>
-                </ul>
-            </div>
-            <div class="col-md-6">
-                <div class="p-3">
-                    <h1 class="text-center">Already Done!</h1>
-                </div>
-                <ul data-cy="complete-list-holder" class="list-group" :key="complete.id" v-for="complete in completeItems">
-                    <complete-item :label="complete.value"></complete-item>
-                </ul>
-            </div>
-            <div class="col-md-6 p-2">
-                <div v-if="incompleteItems.length > 0" id="incompleteAlert" class="alert alert-info animated fadeInDownBig">
-                    Items Left - {{calculateCountOfIncomplete()}}
-                </div>
-            </div>
-            <div class="col-md-6 p-2">
-                <div v-if="completeItems.length > 0" id="completeAlert" class="alert alert-success animated fadeInLeftBig">
-                    Items Completed - {{calculateCountOfComplete()}}
-                </div>
-            </div>
-        </div>
-        <div data-cy="error-message-container" class="row" v-if="!hideError">
-            <div class="col-md-12 alert alert-danger">
-                {{errorMessage}}
-                <span @click="_hideErrorMessage()" class="float-right cursor-pointer" aria-hidden="true">&times;</span>
-            </div>
-        </div>
+        <todo-container :incomplete="incompleteItems" :complete="completeItems" @justCompleted="completeItem"></todo-container>
+        <error-box :message="errorMessage" @errorMessageClosed="errorMessageClosed"></error-box>
         <div class="row">
             <div class="col-md-12">
                 <system-stats></system-stats>
@@ -63,12 +31,12 @@
 </template>
 
 <script>
-  import IncompleteItem from "../components/IncompleteItem";
-  import CompleteItem from "../components/CompleteItem";
+  import TodoContainer from '../components/TodoContainer';
   import Navbar from "../components/Navbar";
   import SystemStats from "../components/SystemStats";
   import Database from '../providers/Database';
   import StoreHelpers from '../utils/StoreHelpers';
+  import ErrorBox from '../components/ErrorBox';
   import { EventBus } from '../utils/EventBus';
 
   let store = new Database();
@@ -77,12 +45,8 @@
     name: "home",
     data() {
       return {
-        hiddenCompleteItems: [],
         completeItems: [],
         incompleteItems: [],
-        showDarkButton: true,
-        showLightButton: false,
-        hideError: true,
         errorMessage: '',
         completeItemsProvider: null,
         helpBubbleShown: false,
@@ -109,54 +73,36 @@
           this.priority = priority;
         }
       });
-      EventBus.$on('settingsWindowOpen', () => {
-        this.$router.push('settings');
-      });
     },
     methods: {
       _addItemToList(value) {
-        let data = {
+        const data = {
           value: value,
-          id: new Date().getTime(),
+          id: (new Date()).getTime(),
           complete: 'N',
           priority: this.priority
         };
         store.addItemToStore(data.id, data);
         this.incompleteItems.push(data);
       },
-      _showErrorMessage (message) {
-        this.errorMessage = message;
-        this.hideError = false;
-      },
-      _hideErrorMessage () {
-        this.errorMessage = '';
-        this.hideError = true;
-      },
       createIncompleteItem(event) {
-        this.hideError = true;
         const value = this.incompleteItemText;
         if (event.which === 13) {
           if (value.length === 0 ) {
-            this._showErrorMessage('Value is empty');
+            this.errorMessage = 'Value is empty';
             return;
           }
           if (StoreHelpers.fetchAllKeyValues(this.incompleteItems, 'value').indexOf(value) !== -1) {
-            this._showErrorMessage('Item already exists in incomplete items');
+            this.errorMessage = 'Item already exists in incomplete items';
             return;
           }
           if (StoreHelpers.fetchAllKeyValues(this.completeItems, 'value').indexOf(value) !== -1) {
-            this._showErrorMessage('Item already exists in completed items');
+            this.errorMessage = 'Item already exists in completed items';
             return;
           }
           this._addItemToList(value);
           this.incompleteItemText = '';
         }
-      },
-      calculateCountOfIncomplete () {
-        return Object.keys(this.incompleteItems).length;
-      },
-      calculateCountOfComplete () {
-        return Object.keys(this.completeItems).length;
       },
       completeItem (id) {
         const that = this;
@@ -172,6 +118,9 @@
         });
         this.incompleteItems = incompleteItems;
       },
+      errorMessageClosed () {
+        this.errorMessage = '';
+      },
       showHelpBubble () {
         this.helpBubbleShown = true;
       },
@@ -179,12 +128,14 @@
         this.helpBubbleShown = false;
       }
     },
-    components: {IncompleteItem, CompleteItem, Navbar, SystemStats}
+    components: {
+      Navbar,
+      SystemStats,
+      TodoContainer,
+      ErrorBox
+    }
   };
 </script>
 
 <style scoped>
-    .cursor-pointer{
-        cursor: pointer;
-    }
 </style>
