@@ -26,16 +26,14 @@
       const that = this;
       let timestamp = (new Date()).getTime();
       WebStore.fetchWebContents().then((Response) => {
-        Response.json().then((data) => {
-          data.forEach((dataRow) => {
+        JSON.parse(Response).forEach((dataRow) => {
             dataRow.id = timestamp;
             timestamp = timestamp + 1;
             if (dataRow.complete === 'Y') {
-              that.completeItems.push(dataRow);
+                that.completeItems.push(dataRow);
             } else {
-              that.incompleteItems.push(dataRow);
+                that.incompleteItems.push(dataRow);
             }
-          });
         });
       });
       EventBus.$on('clearDatabase', () => {
