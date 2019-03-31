@@ -4,7 +4,7 @@ export default class SystemInformation {
    * Get the page name
    * @return {Promise<any>}
    */
-  static getPageName () {
+  getPageName () {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve('Advanced Todo');
@@ -16,7 +16,7 @@ export default class SystemInformation {
    * Get the page status
    * @return {Promise<any>}
    */
-  static getPageStatus () {
+  getPageStatus () {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve('Active');

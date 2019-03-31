@@ -1,6 +1,6 @@
 <template>
     <ul class="list-group">
-        <li class="list-group-item" :key="item.id" v-for="item in info">{{item.id}} - {{item.value}}</li>
+        <li class="list-group-item" :data-cy="item.id" :key="item.id" v-for="item in info">{{item.id}} - {{item.value}}</li>
     </ul>
 </template>
 
@@ -20,7 +20,8 @@
     methods: {
       buildSystemInformation () {
         let arr = [];
-        SystemInformation.getPageName().then((pageName) => {
+        const si = new SystemInformation();
+        si.getPageName().then((pageName) => {
           arr.push({
             id: 'Name',
             value: pageName
@@ -31,7 +32,7 @@
             value: 'Failed to find the page name'
           });
         });
-        SystemInformation.getPageStatus().then((status) => {
+        si.getPageStatus().then((status) => {
           arr.push({
             id: 'Status',
             value: status
