@@ -1,6 +1,6 @@
 <template>
     <ul class="list-group">
-        <li class="list-group-item" :key="item.id" v-for="item in info">{{item.id}} - {{item.value}}</li>
+        <li class="list-group-item" :data-cy="item.id" :key="item.id" v-for="item in info">{{item.id}} - {{item.value}}</li>
     </ul>
 </template>
 
