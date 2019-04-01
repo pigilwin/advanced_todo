@@ -1,20 +1,10 @@
 export default class Database {
   /**
-   * @var {Database} instance
-   */
-  static instance;
-  /**
    * Create a new storage instance
    */
   constructor () {
-    if (Database.instance) {
-      return Database.instance;
-    }
-
     this.key = "TODO";
     this.storageData = this._loadData();
-
-    Database.instance = this;
   }
 
   /**
