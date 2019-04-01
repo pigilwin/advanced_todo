@@ -83,7 +83,7 @@
             },
             showPrompt () {
                 let name = window.prompt('What is your name?');
-                window.alert(name);
+                window.alert('Hello ' + name);
             }
         }
     }
