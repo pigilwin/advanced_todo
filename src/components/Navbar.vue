@@ -19,6 +19,9 @@
                 </button>
             </div>
             <div class="my-2 my-lg-2 m-1">
+                <button data-cy="static-button" @click="goToStatic" class="btn btn-block btn-lg btn-primary">Go to Static</button>
+            </div>
+            <div class="my-2 my-lg-2 m-1">
                 <button data-cy="prompt-for-stub" @click="showPrompt" class="btn btn-block btn-lg btn-secondary">Show
                     Prompt
                 </button>
@@ -84,6 +87,9 @@
             showPrompt () {
                 let name = window.prompt('What is your name?');
                 window.alert('Hello ' + name);
+            },
+            goToStatic () {
+                this.$router.push('/static');
             }
         }
     }
