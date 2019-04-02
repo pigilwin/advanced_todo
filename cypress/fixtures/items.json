@@ -1,31 +1,31 @@
 [
   {
     "id": "000001",
-    "value": "Hello World",
+    "value": "Clean the house",
     "complete": "N",
     "priority": "L"
   },
   {
     "id": "000002",
-    "value": "Foo",
+    "value": "Mow the lawn",
     "complete": "Y",
     "priority": "M"
   },
   {
     "id": "000003",
-    "value": "Bar",
+    "value": "Wash the car",
     "complete": "N",
     "priority": "H"
   },
   {
     "id": "000004",
-    "value": "World",
+    "value": "Cook dinner",
     "complete": "Y",
     "priority": "L"
   },
   {
     "id": "000005",
-    "value": "Hello",
+    "value": "Do some work",
     "complete": "N",
     "priority": "M"
   }
