@@ -6,16 +6,16 @@ describe('All features of incomplete items', () => {
 
   });
 
-  it ('should pop up a helpful message for creating items', () => {
+  it ('should add an incomplete item', () => {
 
     cy.visit('/');
 
+    cy.get('[data-cy="new-item"]')
+        .type('Clean the house')
+        .should('have.value','Clean the house')
+        .trigger('keydown', { keyCode: 13, which: 13 });
 
-    cy.get('[data-cy="new-item"]').type('some text').then(() => {
-
-      cy.get('[data-cy="new-item-help-text"]');
-
-    });
+    cy.get('[data-cy="incomplete-list-holder"]').children().should('have.length', 1);
 
   });
 
@@ -26,19 +26,6 @@ describe('All features of incomplete items', () => {
     cy.get('[data-cy="new-item"]').trigger('keydown', { keyCode: 13, which: 13 });
 
     cy.get('[data-cy="error-message-container"]');
-
-  });
-
-  it ('should add an incomplete item', () => {
-
-    cy.visit('/');
-
-    cy.get('[data-cy="new-item"]')
-      .type('Clean the house')
-      .should('have.value','Clean the house')
-      .trigger('keydown', { keyCode: 13, which: 13 });
-
-    cy.get('[data-cy="incomplete-list-holder"]').children().should('have.length', 1);
 
   });
 
@@ -79,10 +66,15 @@ describe('All features of incomplete items', () => {
     .should('have.value','Clean the house')
     .trigger('keydown', { keyCode: 13, which: 13 });
 
-
     cy.get('[data-cy="error-message-container"]');
-
   });
 
+  it ('should pop up a helpful message for creating items', () => {
 
+    cy.visit('/');
+
+    cy.get('[data-cy="new-item"]').type('some text').then(() => {
+      cy.get('[data-cy="new-item-help-text"]');
+    });
+  });
 });
